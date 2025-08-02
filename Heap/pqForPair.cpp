@@ -4,31 +4,22 @@
 #include<queue>
 using namespace std;
 
-class Student{
-public:
-    string name;
-    int marks;
-
-    Student(string name, int marks){
-        this->name = name;
-        this->marks = marks;
-    }
-
-    bool operator < (const Student &obj) const{
-        return this -> marks < obj. marks;
+struct ComparePair{
+    bool operator ()(pair <string, int> &p1, pair<string, int> &p2){
+        return p1.second > p2.second;
     }
 };
 
 int main() 
 {
-    priority_queue<Student> pq;
-    pq.push(Student("sunvir", 77));
-    pq.push(Student("avi", 88));
-    pq.push(Student("sany", 66));
+    priority_queue < pair <string, int>, vector<pair<string, int>>, ComparePair> pq; //deafault - maxHeap; "FIRST"
+
+    pq.push(make_pair("sunvir", 77));
+    pq.push(make_pair("avi", 88));
+    pq.push(make_pair("sany", 66));
 
         while(!pq.empty()) {
-        Student topStudent = pq.top();  // store in variable
-        cout << "Top: " << topStudent.name << ", " << topStudent.marks << endl;
+        cout << "Top: " << pq.top().first << ", " << pq.top().second << endl;
         pq.pop();
     }
    

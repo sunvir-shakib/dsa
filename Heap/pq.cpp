@@ -4,7 +4,7 @@ using namespace std;
 
 
 int main(){
-    //priority_queue<int> pq;  //max heap(descending-deafault)
+    // priority_queue<int> pq;  //max heap(descending-deafault)
     priority_queue<int, vector<int>, greater<int>> pq; //min heap(ascending)
 
     pq.push(4);
@@ -14,8 +14,6 @@ int main(){
 
     while( !pq.empty() ){
         cout<<"Top: "<< pq.top()<<endl; 
-
-
         pq.pop();
     }
 
