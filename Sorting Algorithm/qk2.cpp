@@ -12,7 +12,7 @@ int partition(int *ar, int si, int ei){
     int i = si-1;
     int pivot = ar[ei];
     for(int j=si; j < ei; j++){
-        if(pivot >= ar[j] ){
+        if(pivot <= ar[j] ){ //descending
             i++;
             swap(ar[i],ar[j]);
         }
