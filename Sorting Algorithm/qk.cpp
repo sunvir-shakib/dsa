@@ -2,8 +2,12 @@
 using namespace std;
 
 int partition(int *ar, int si, int ei){
+    int mid = (si+ei)/2; //pivot idx at mid
+    int pivot = ar[mid];
+    // swap(pivot, ar[ei]); wrong bcz pivot is a local variable which is not working at swap fun.
+    swap(ar[mid], ar[ei]);
     int i = si-1;
-    int pivot = ar[ei]; 
+
     for(int j=si; j<ei; j++){
         if(ar[j]<=pivot){
             i++;
