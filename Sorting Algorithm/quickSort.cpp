@@ -37,7 +37,7 @@ int partition(vector<int> &ar, int si, int ei){
     return i;
 }
 
-//pivot at mid diff types
+//pivot at mid diff type
 int partition2(vector<int> &ar, int si, int ei){
     int pivot = ar[(si+ei)/2]; // pivot at mid
     int i = si;
@@ -74,7 +74,7 @@ int partition(vector<int> &arr, int si, int ei){
     }
     i++;
     swap(arr[i], arr[ei]);
-    return i; //return pivot idx
+    return i; //return pivot
 }
 
 void quickSort(vector<int> &ar, int si, int ei){

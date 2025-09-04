@@ -13,12 +13,20 @@ public:
         this -> v = v;
         adjList = new list<int> [v];
     }
-
+    
     void addEdge(int u, int v){ 
         adjList[u].push_back(v);
         adjList[v].push_back(u);
     }
 
+    void sortAdjList() {
+    for (int i = 0; i < v; i++) {
+        adjList[i].sort(); // sort each vertex’s neighbor list
+    }
+}
+
+
+    //DFS ----
     void dfsHelper(int u, vector<bool> &vis){
         vis[u] = true;
         cout<< u << " ";
@@ -31,25 +39,32 @@ public:
         }
     }
 
-    void dfs(){
-        vector<bool> vis(7, false);
-        dfsHelper(0, vis);
+    void dfs(int V){
+        vector<bool> vis(V, false);
+
+        for(int i=0; i<V; i++){ //to visit all disconnected components
+            if(!vis[i]){
+                dfsHelper(i, vis); //starting from i
+            }
+        }
+        cout<<endl;
+        
     }
 };
 
 int main(){
-    Graph graph(7); //undirected
+    int V,E;
+    cin>>V>>E;
+    Graph g(V);
 
-    graph.addEdge(0,1);
-    graph.addEdge(0,2);
-    graph.addEdge(1,3);
-    graph.addEdge(2,4);
-    graph.addEdge(3,4);
-    graph.addEdge(3,5);
-    graph.addEdge(4,5);
-    graph.addEdge(5,6);
-    
-    graph.dfs();
+    for(int i=0; i<E; i++){
+        int u, v;
+        cin>>u>>v;
+        g.addEdge(u,v);
+    }
+
+    g.sortAdjList();
+    g.dfs(V);
 
     return 0;
 }

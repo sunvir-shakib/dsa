@@ -6,45 +6,17 @@ using namespace std;
 
 class Graph{
     int v;
-    list<int> *l;
+    list<int> *adjList;
 
 public:
     Graph(int v){
         this -> v = v;
-        l = new list<int> [v];
+        adjList = new list<int> [v];
     }
 
     void addEdge(int u, int v){ //u--v
-        l[u].push_back(v);
-        l[v].push_back(u);
-    }
-
-    void print(){
-        for(int u=0; u<v; u++){
-            list<int> neighbours = l[u];
-            cout<< u <<" : ";
-            for(int v : neighbours){
-                cout<<v << " ";
-            }
-            cout<<endl;
-        }
-    }
-
-    void dfsHelper(int u, vector<bool> &vis){
-        vis[u] = true;
-        cout<< u << " ";
-
-        list<int> neighbours = l[u];
-        for(int v : neighbours){
-            if(!vis[v]){
-                dfsHelper(v, vis);
-            }
-        }
-    }
-
-    void dfs(){
-        vector<bool> vis(7, false);
-        dfsHelper(0, vis);
+        adjList[u].push_back(v);
+        adjList[v].push_back(u);
     }
 
     bool pathHelper(int src, int dest, vector<bool> &vis){
@@ -53,7 +25,7 @@ public:
         }
 
         vis[src] = true;
-        list<int> neighbours = l[src];
+        list<int> neighbours = adjList[src];
         for(int v : neighbours){
             if(!vis[v]){
                 if(pathHelper(v, dest, vis)){
@@ -63,19 +35,16 @@ public:
         }
 
         return false;
-        
     }
 
     bool hashPath(int src, int dest){
         vector<bool> vis(v, false);
         return pathHelper(src, dest, vis);
-
     }
 };
 
-
 int main(){
-    Graph graph(7); //undirected
+    Graph graph(8); //undirected
 
     graph.addEdge(0,1);
     graph.addEdge(0,2);
@@ -84,9 +53,8 @@ int main(){
     graph.addEdge(3,4);
     graph.addEdge(3,5);
     graph.addEdge(4,5);
-    // graph.addEdge(5,6);
     
-    cout<<graph.hashPath(5,6)<<endl;
+    cout<<graph.hashPath(1,3)<<endl;
 
     return 0;
 }

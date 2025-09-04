@@ -23,8 +23,8 @@ public:
 
 
     void bfs(int src) {
-        queue<int> q;             // queue for BFS
-        vector<bool> vis(v, false); // visited array (size = v)
+        queue<int> q;           
+        vector<bool> vis(v, false); 
 
         q.push(src);   // start BFS from src
         vis[src] = true; // mark source as visited
