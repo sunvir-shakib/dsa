@@ -5,24 +5,24 @@ using namespace std;
 
 class Graph{
     int v;
-    list<pair<int, int>> *l; // pair<destination, weight>
+    list<pair<int, int>> *adjList; // pair<destination, weight>
 
 public:
     Graph(int v){
         this -> v = v;
-        l = new list<pair<int, int>>[v];
+        adjList = new list<pair<int, int>>[v];
     }
 
     void addEdge(int u, int v, int weight) {
-        l[u].push_back({v, weight});
-        l[v].push_back({u, weight}); 
+        adjList[u].push_back({v, weight});
+        adjList[v].push_back({u, weight}); 
     }
 
 
     void print() {
         for(int u = 0; u < v; u++) {
             cout << u << " : ";
-            for(auto edge : l[u]) {
+            for(auto edge : adjList[u]) {
                 cout << "(" << edge.first << "," << edge.second << ") ";
             }
             cout << endl;
