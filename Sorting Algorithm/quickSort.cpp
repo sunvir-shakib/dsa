@@ -1,107 +1,85 @@
-#include<bits/stdc++.h>
-using namespace std;
+# Quick Sort Implementation in Python
 
-//pivot at first idx
-int partition(vector<int>& ar, int si, int ei) {
-    int pivot = ar[si];  
-    int i = si;
-
-    for (int j = si + 1; j <= ei; j++) {
-        if (ar[j] < pivot) {  
-            i++;
-            swap(ar[i], ar[j]);
-        }
-    }
-
-    swap(ar[i], ar[si]);  
-    return i;
-}
-
-
-//pivot at mid idx
-int partition(vector<int> &ar, int si, int ei){
-    int mid = (si+ei)/2; //pivot idx at mid
-    int pivot = ar[mid];
-    // swap(pivot, ar[ei]); wrong bcz pivot is a local variable which is not working at swap fun.
-    swap(ar[mid], ar[ei]);
-    int i = si-1;
-
-    for(int j=si; j<ei; j++){
-        if(ar[j]<=pivot){
-            i++;
-            swap(ar[i], ar[j]);
-        }    
-    }
-    i++;
-    swap(ar[i], ar[ei]);
-    return i;
-}
-
-//pivot at mid diff type
-int partition2(vector<int> &ar, int si, int ei){
-    int pivot = ar[(si+ei)/2]; // pivot at mid
-    int i = si;
-    int j = ei;
+def quick_sort(arr, si, ei):
+    if si >= ei:
+        return
     
-    while(i <= j){
-        while(ar[i] < pivot){
-            i++;
-        }
-        while(ar[j] > pivot){
-            j--;
-        }
-        
-        // If we found elements to swap
-        if(i <= j){
-            swap(ar[i], ar[j]);
-            i++;
-            j--;
-        }
-    }
-    return i; 
-}
+    # Partition using last element as pivot
+    pivot_index = partition_end(arr, si, ei)
+    quick_sort(arr, si, pivot_index - 1)   # Left side
+    quick_sort(arr, pivot_index + 1, ei)   # Right side
 
-//pivot at end idx
-int partition(vector<int> &arr, int si, int ei){
-    int i = si-1;
-    int pivot = arr[ei];
-    
-    for(int j = si; j<ei; j++){
-        if (arr[j]<=pivot){
-            i++;
-            swap(arr[i], arr[j]);
-        }
-    }
-    i++;
-    swap(arr[i], arr[ei]);
-    return i; //return pivot
-}
 
-void quickSort(vector<int> &ar, int si, int ei){
-    if(si>=ei)
-    return;
+# Partition when pivot is the first element
+def partition_first(arr, si, ei):
+    pivot = arr[si]
+    i = si
+    for j in range(si + 1, ei + 1):
+        if arr[j] < pivot:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+    arr[i], arr[si] = arr[si], arr[i]
+    return i
 
-    int pivotIDX = partition(ar, si, ei);
-    quickSort(ar, si, pivotIDX-1); 
-    quickSort(ar, pivotIDX+1, ei); 
-}
-    
 
-int main() 
-{
-   int n;
-   cin>>n;
-   vector<int> ar(n);
-   for(int i=0; i<n; i++){
-    cin>>ar[i];
-   }
+# Partition when pivot is the middle element (method 1)
+def partition_mid(arr, si, ei):
+    mid = (si + ei) // 2
+    pivot = arr[mid]
+    arr[mid], arr[ei] = arr[ei], arr[mid]   # Move pivot to end
+    i = si - 1
+    for j in range(si, ei):
+        if arr[j] <= pivot:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+    i += 1
+    arr[i], arr[ei] = arr[ei], arr[i]
+    return i
 
-   quickSort(ar, 0, n-1);
-   
-   for(int i=0; i<n; i++){
-        cout<<ar[i]<<" ";
-    }
-    cout<<endl;
 
-    return 0;
-}
+# Partition when pivot is the middle element (method 2, Hoare scheme)
+def partition_mid2(arr, si, ei):
+    pivot = arr[(si + ei) // 2]
+    i, j = si, ei
+    while i <= j:
+        while arr[i] < pivot:
+            i += 1
+        while arr[j] > pivot:
+            j -= 1
+        if i <= j:
+            arr[i], arr[j] = arr[j], arr[i]
+            i += 1
+            j -= 1
+    return i
+
+
+# Partition when pivot is the last element
+def partition_end(arr, si, ei):
+    pivot = arr[ei]
+    i = si - 1
+    for j in range(si, ei):
+        if arr[j] <= pivot:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+    i += 1
+    arr[i], arr[ei] = arr[ei], arr[i]
+    return i
+
+
+# Function to print array
+def print_array(arr):
+    for num in arr:
+        print(num, end=" ")
+    print()
+
+
+# Main Program
+if __name__ == "__main__":
+    arr = [6, 3, 1, 9, 7]  # Same input as previous merge sort example
+    print("Original Array:")
+    print_array(arr)
+
+    quick_sort(arr, 0, len(arr) - 1)
+
+    print("Sorted Array:")
+    print_array(arr)

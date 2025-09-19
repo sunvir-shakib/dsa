@@ -13,9 +13,7 @@ public:
         this-> v = v;
         this -> wt = wt;
     }
-
 };
-
 
 void dijkstra(int src, vector<vector<Edge>> &graph, int V){
     priority_queue< pair<int, int> , vector<pair<int, int>>, greater<pair<int, int>>> pq; //min heap
