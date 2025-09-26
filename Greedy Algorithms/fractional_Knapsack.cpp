@@ -3,55 +3,48 @@
 #include<algorithm>
 using namespace std;
 
- //find maximum values
-
-bool compare(pair<double, int>p1, pair<double, int>p2){
-    return p1.first > p2.first; //desending order  based on ratio
+bool compare(const pair<int, int>& a, const pair<int, int>& b) {
+    return  a.first/ (double)a.second > b.first/ (double)b.second; //descending, sort by ratio
 }
 
-int fractionalKnapSack(vector<int> &val, vector<int>wt, int W){ //O(nlogn)
-    int n = val.size();
-    vector<pair<double, int>>ratio(n, make_pair(0.0, 0)); //pair(ratio, idx) -> (double,int)
-
-    for(int i=0; i<n; i++){
-        double r = val[i]/(double)wt[i]; 
-        ratio[i] = make_pair(r, i);
+double frKnapsack(vector<int> val, vector<int> wt, int W){
+    vector<pair<int, int>> pr;
+    
+    for(int i=0; i<val.size(); i++){
+        pr.push_back({val[i], wt[i]});
     }
 
-    sort(ratio.begin(), ratio.end(), compare);
-    int ans = 0;
-    for(int i=0; i<n; i++){
-        int idx = ratio[i].second; //wt,val
-        if(wt[idx] <= W){
-            ans += val[idx];
-            W -= wt[idx];
+    sort(pr.begin(), pr.end(), compare); //by ratio
+
+    // sort(pr.begin(), pr.end(), [](const pair<int, int>& a, const pair<int, int>& b){
+    //     return  a.first/ (double)a.second > b.first/ (double)b.second;
+    // });
+
+    double totVal = 0;
+
+    for(auto &pair : pr){
+        if(pair.second <= W){
+            totVal += pair.first;
+            W -= pair.second;
         }
+
         else{
-            ans += ratio[i].first * W;
-            W = 0; 
+            totVal += (pair.first*(double)W) / pair.second;
             break;
         }
     }
-    cout<<"Max value: "<< ans<<endl;
-    return ans;
+
+    cout<<"Max Val: "<<totVal<<endl;
+    return totVal;
 }
 
 int main() 
 {
-   vector<int> val = {60, 100, 120};
-   vector<int> wt = {10, 20, 30};
-   int W = 50;
+    vector<int> val = {60, 100, 120};
+    vector<int> wt = {10, 20, 30};
+    int W = 50;
 
-   fractionalKnapSack(val, wt, W);
+    frKnapsack(val, wt, W);
 
     return 0;
 }
-
-/*
-
-steps
-1. find ratios
-2. sort according desending order
-3.
-
-*/
