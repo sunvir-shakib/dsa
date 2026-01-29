@@ -59,7 +59,7 @@ public:
                 minCost += w;
             }
         }
-        cout<<minCost<<endl;
+        cout<<"Minimum cost of the spanning tree: " <<minCost<<endl;
     }
     
     void addEdge(int w, int u, int v){

@@ -5,7 +5,8 @@ using namespace std;
 
 class Graph{
     int v;
-    list<int> *l;
+    list<int> *l; //l = [(), (), (), (), ()] (indices 0-4, each is an empty list)
+    // vector<vector<int>> --- [[], [], [], [], []]
 
 public:
     Graph(int v){
